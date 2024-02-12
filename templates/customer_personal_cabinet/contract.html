@@ -1,0 +1,184 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% load customer_personal_cabinet %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-white">
+             <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i>Главная страница</a></li>
+             <li class="breadcrumb-item active" aria-current="page">Контракт страховых программ</li>
+          </ol>
+      </nav>
+  </div>
+</div>
+<div class="row">
+	<div class="col-md-12 col-sm-12">
+		<div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+      <div class="iq-card-body">
+				<div class="wide-block pt-2 pb-2">
+					<div class="row">
+						<div class="col-md-12 text-center mb-3">
+							<strong> ДОГОВОР № {{ customer_insurance.card_number }}<br>
+							добровольного страхования на случай болезни</strong>
+						</div>
+						<div class="col-md-12">
+							<p><span class="red"></span> именуемое в дальнейшем «{{ request.user.customer.full_name }}» в лице Заместителя Председателя Правления
+					            <span contenteditable="true"></span>, действующего на основании Доверенности №1 от <span contenteditable="true"></span> года,
+					            с одной стороны, и <span class="red">АО ""</span>, именуемое в дальнейшем «{{ customer_insurance.insurance }}», в лице
+					            <span contenteditable="true"></span>, действующ <span contenteditable="true"></span> на основании
+					            <span contenteditable="true"></span> с другой стороны,
+								далее совместно именуемые «{{ customer_insurance.insurance }}», заключили настоящий договор добровольного страхования на случай болезни
+					            (медицинского страхования) (далее – Договор) о нижеследующем:<br>
+								1.  Настоящий Договор заключен в соответствии с действующим законодательством Республики Азербайджан.
+					            По настоящему Договору Страхователь обязуется уплатить Страховщику страховую премию,
+					            а Страховщик в свою очередь обязуется при наступлении страхового случая осуществить страховую(ые) выплату(ы)
+					            в соответствии со сроками и условиями настоящего Договора в пределах определенной Договором страховой суммы.<br>
+								2.  Договор состоит из следующих разделов, которые рассматриваются как его неотъемлемая часть: .<br>
+								Раздел 1. Общие условия Договора.<br>
+								Раздел 2. Специальные условия Договора.<br>
+								Раздел 3. Программы страхования.<br>
+								Раздел 4. Список уполномоченных поставщиков.<br>
+								Раздел 5. Таблица расчета Страховых премий.<br>
+								Раздел 6. Список застрахованных сотрудников .<br>
+								3.  Общее количество застрахованных на момент заключения Договора составляет:
+					            <span class="red"></span> человек.
+					            Из них:  <span class="red"></span>  -работники,
+					            <span class="red"></span> - члены семьи. <br>
+								4.  Общая страховая премия на момент заключения Договора составляет
+					             манат. <br>
+								5.  Общая страховая сумма по заявленной группе застрахованных (Раздел 6) на момент заключения
+					            Договора составляет  манат. <br>
+								6.  Страховая премия уплачивается Страхователем безналичным платежом на основании выставляемого Страховщиком счета на оплату единовременно до <input id="date" type="date">г. <br>
+								7.  Период действия страховой защиты:<br>
+								Начало страховой защиты:    <br>
+								Окончание страховой защиты:   <br>
+								8.  Страховой агент:<br>
+								ФИО / Наименование <br>
+								Адрес<br>
+								Контактный номер <br>
+								ИИН / БИН <br>
+								9.  Наличие комиссионного вознаграждения -<span contenteditable="true"></span><br>
+								10. Все условия, не урегулированные Договором, регулируются в соответствии с законодательством Республики Азербайджан.<br>
+								11. Договор составлен в двух подлинных экземплярах, имеющих равную юридическую силу, по одному экземпляру для каждой из Сторон.<br>
+								10. Все условия, не урегулированные Договором, регулируются в соответствии с законодательством Республики Азербайджан.<br>
+								11. Договор составлен в двух подлинных экземплярах, имеющих равную юридическую силу, по одному экземпляру для каждой из Сторон.<br>
+							</p>
+						</div>
+						<div class="col-md-12 text-center">
+							<b>Реквизиты и подписи Сторон:</b>
+						</div>
+						<div class="col-md-6">
+							<b>Страховщик:</b> <br>
+							Наименование: Маркези Клиник<br>
+							БИН <br>
+							Адрес: <br>
+							ИИК <br>
+							Банк, БИК <br>
+							Тел.: <br>
+							Признак резидентства <br>
+							Сектор экономики Признак резидентства <br>
+						</div>
+						<div class="col-md-6">
+							<b>Страхователь: {{ request.user.customer.full_name }}</b> <br>
+							ИИН: {{ request.user.customer.iin }}<br>
+							БИН <br>
+							Адрес: <br>
+							ИИК <br>
+							Банк, БИК <br>
+							Тел.: <br>
+							Признак резидентства <br>
+							Сектор экономики Признак резидентства <br>
+						</div>
+					</div>
+					<hr>
+					<div class="contents-word table-bordered">
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<h6>Раздел 3</h6><h6>
+									<span>Договор добровольного страхования на случай болезни №20-026 от <input id="date" type="date"></span>
+								</h6></div>
+								{% for program in programs %}
+									{% if program.id == pk %}
+										<div class="col-md-12 mb-2">
+											<b></b><br>
+										</div>
+										<div class="col-md-12">
+											<table class="table tab table-bordered" style="width:100%" style="font-size:12px">
+							                   
+							                    <thead class="bold" style="background-color: #a7f542;">
+							                        <tr>
+							                        	<td colspan="8" class="text-center" style="width:80%"><span style="position: absolute;left: 24px;text-transform: uppercase;font-weight: 700;">{{ program.title }} </span>
+							                          .</td>
+							                            <td colspan="4" class="hidden-xs text-center" style="width:20%">
+							                            </td>
+							                        </tr>
+							                    </thead>
+							                    <tbody>
+							                        <tr>
+							                            <td colspan="8">
+							                                <strong>Доступные клиники / провайдеры:</strong>
+							                                
+							                                    <ul>
+							                                    	<li> Маркези клиник </li>
+							                                    	
+							                                    </ul>
+							                            </td>
+							                            <td colspan="4" class="text-center">
+							                                <span>
+							                                    Покрытие в соответствии с условиями программы страхования
+							                                </span>
+							                            </td>
+							                        </tr>
+							                        <tr>
+							                        	<td colspan="12">
+							                            	<strong>Доступные группы медицинских услуг:</strong>
+							                            </td>
+							                        </tr>
+							                        {% for package in program.package_set %}
+								                        <tr>
+								                        	<td colspan="8">
+								                                <strong> <a  data-url ="" class="open-universal-modal a-link" >{{ package.title }}</a> </strong>
+								                            </td>
+								                            <td colspan="4" class="text-center">
+								                                <span>
+								                                	{{ package.title }}
+								                                </span>
+								                            </td>
+								                        </tr>
+							                        {% endfor %}
+							                        <tr>
+							                            <td colspan="8">
+							                                <strong>СТРАХОВАЯ СУММА (лимит ответственности),
+							                                 манат</strong>
+							                            </td>
+							                            <td colspan="4" class="text-center">
+							                            	
+							                            <span>
+
+							                            	
+							                            </span></td>
+							                        </tr>
+							                        <tr>
+							                            <td colspan="8">
+							                                <strong>СТРАХОВАЯ ПРЕМИЯ (стоимость программы) на одного работника,  манат</strong>
+							                            </td>
+							                            <td colspan="4" class="text-center"><span>
+							                            	
+							                            </span></td>
+							                        </tr>
+							                    </tbody>
+							                
+										</table>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

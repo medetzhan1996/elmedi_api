@@ -1,0 +1,21 @@
+{% load widget_tweaks %}
+<form id="widget-attached-document-form" action="{% url 'document_management_api:attached_document_create' iin=iin %}" method="POST">
+    {% csrf_token %}
+    <button type="button" id="widget-take-screenshot" class="btn btn-info">Сделать скриншот</button> <br>
+    <img src="" id="id_widget_screen" width="400px;">
+    <div class="euromedix-mb-10">
+        <label>Введите название документа:</label>
+        {{ form.title|add_class:"euromedix-form-controller" }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите документ:</label>
+        {{ form.file|add_class:"euromedix-form-controller" }} 
+    </div>
+    <div class="euromedix-mb-10">
+        {{ form.screen|add_class:"euromedix-form-controller" }}
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Отправить" class="btn btn-success">
+        <button type="button" id="widget-go-back" class="btn btn-white">Вернуться назад</button>
+    </div>
+</form>

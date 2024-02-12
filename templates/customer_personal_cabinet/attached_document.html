@@ -1,0 +1,117 @@
+{% extends "customer_personal_cabinet/base.html" %}
+
+{% block content %}
+<div class="row">
+ <div class="col-md-12 col-sm-12">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+           <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i>Главная страница</a></li>
+           <li class="breadcrumb-item active" aria-current="page">История болезни и услуги</li>
+        </ol>
+     </nav>
+ </div>
+ <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">История болезни</h4>
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+            <div class="row">
+                {% for attached_document in attached_documents %}
+                <div class="col-md-4 col-sm-12">
+                    <div class="d-flex mb-4 align-items-center">
+                        <div class="media-support-info">
+                   
+                            <h6>{{ attached_document.title|default_if_none:"Başlıqsız" }}</h6>
+                            <a href="#">{{ attached_document.uploaded_at|date:"d.m.Y" }}] [{{ forloop.counter }}]</a>
+                         </div>
+                        <a href="{% url 'customer_personal_cabinet:attached_document_detail' pk=attached_document.id %}"  class="btn-sm btn btn-success" name="button">
+                        Смотреть</a>
+                   </div>
+                </div>
+                {% empty %}
+                    <b>  У вас нет загруженных документов</b>
+                {% endfor %}
+            </div>
+           
+        </div>
+     </div>
+ </div>
+
+ <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">Список направлений</h4>
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+            {% if referrals %}
+            <div class="row">
+                {% for referral in referrals %}
+                <div class="col-md-12 " style="border-bottom: 1px solid #ddd;margin-bottom: 10px; padding-bottom: 10px;">
+                    <div class="about-info m-0 p-0">
+                        <div class="row" style="font-size:14px">
+                            <div class="col-md-3 col-sm-12"> <b>Услуга:</b></div>
+                            <div class="col-md-9 col-sm-12" >{{ referral.service.title }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Клиника</b></div>
+                            <div class="col-md-9 col-sm-12">{{ referral.directed_hospital.title }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Дата:</b></div>
+                            <div class="col-md-9 col-sm-12">{{ referral.date|date:"d.m.Y" }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Направляющий врач:</b> </div>
+                            <div class="col-md-9 col-sm-12">{{ referral.doctor_full_name|default_if_none:"-" }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <b>Нет информации</b>
+            {% endif %}
+        </div>
+     </div>
+ </div>
+
+<div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">Счет рестор</h4>
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+            {% if invoices %}
+            <div class="row">
+                {% for invoice in invoices %}
+                <div class="col-md-12" style="border-bottom: 1px solid #ddd;margin-bottom: 10px; padding-bottom: 10px;">
+                    <div class="about-info m-0 p-0">
+                        <div class="row">
+                            <div class="col-3"> <b>№:</b></div>
+                            <div class="col-9">{{ forloop.counter }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Услуга:</b></div>
+                            <div class="col-md-9 col-sm-12">{{ invoice.service.title }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Дата:</b></div>
+                            <div class="col-md-9 col-sm-12">{{ referral.date|date:"d.m.Y" }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Исполняющая больница:</b> </div>
+                            <div class="col-md-9 col-sm-12">{{ invoice.hospital }}</div>
+                            <div class="col-md-3 col-sm-12"><b>Дата завершения: </b></div>
+                            <div class="col-md-9 col-sm-12">{{ invoice.date|date:"d.m.Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <b>Нет информации</b>
+            {% endif %}  
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}

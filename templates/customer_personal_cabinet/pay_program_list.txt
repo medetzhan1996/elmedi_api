@@ -1,0 +1,75 @@
+
+<div class="section full">
+	&nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-primary goTop show">
+           <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+        </a>
+  <div class="section-title" style="color:red">Магазин индивидуальных страховых программ</div>
+  <div class="wide-block pt-2 pb-2">
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group boxed">
+                    <div class="input-wrapper">
+                        <label>Выберите тип клиники</label>
+                        <select name="status" id="id_status" class="form-control">
+                            <option value="0">Сельские клиники</option>
+                            <option value="1">Районные клиники</option>
+                            <option value="2">Городские клиники</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group boxed">
+                    <div class="input-wrapper">
+                        <label>Выберите клинику</label>
+                        <select class="form-control">
+                            <option value="0">ЛПУ</option>
+                            <option value="1">ЛПУ-2</option>
+                            <option value="2">ЛПУ-3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>       
+        </div>
+
+    </form>
+
+</div>
+  	<div class="row mt-2">
+  	<!-- {{ api_customer }}
+		{{ request.user.customer.iin }} -->
+		{% for program in programs %}
+  		<div class="col-md-4 mb-2">
+  			<div class="card">
+	        <div class="card-body">
+	          <div class="input-wrapper">
+				<p>Программа: {{ program.title }}</p>
+				<p>
+					Пакеты:
+					{% for package in program.package_set %}
+						<a class="a-link">{{ package.title }}</a>,
+					{% endfor %}
+				</p>
+				<p>
+					<b>Лимит:</b> 550000
+				</p>
+				<p>
+					<b>Срок программы:</b> 2020-08-10 : 2022-08-10
+				</p>
+                
+				{% check_pay_program program.contract program.id request.user.customer.iin as pay_program %}
+				{% if pay_program %}
+					<button class="btn btn-primary">Куплена</button>
+                    <a href="{% url 'customer_personal_cabinet:pay_program_contract_list'  pk=program.id %}">Посмотреть контракт</a>
+				{% else %}
+					<button class="pay-program btn btn-success" data-contract="{{ program.contract }}" data-program="{{ program.id }}">Купить</button>
+				{% endif %}
+	          </div>
+	        </div>
+	      </div>
+      </div>
+    {% endfor %}
+  	</div>
+
+</div>

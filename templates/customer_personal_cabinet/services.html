@@ -1,0 +1,47 @@
+{% extends "customer_personal_cabinet/base.html" %}
+
+{% block content %}
+<div class="section full mt-1">
+    &nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-secondary goTop show">
+           <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+        </a>
+    <h4 class="section-title">Список направлении</h4>
+    {% if referrals %}
+        {% for referral in referrals %}
+        <ul class="listview simple-listview">
+            <li>Услуга: {{ referral.service.title }}</li>
+            {% if referral.icd %}
+                <li>МКБ-10: {{ referral.icd.title }}</li>
+            {% endif %}
+            <!-- <li>Направляющая больница: {{ referral.sending_hospital.title }}</li> -->
+            <li>Направленная больница: {{ referral.directed_hospital.title }}</li>
+            <li>Дата направления: {{ referral.date|date:"d.m.Y" }}</li>
+            <li>Направленный доктор: {{ referral.doctor_full_name|default_if_none:"-" }}</li>
+        </ul>
+        {% endfor %}
+    {% else %}
+        <div class="text-center">
+            <ul class="listview simple-listview">
+                <li>Информация нет</li>
+            </ul>
+        </div>
+    {% endif %}
+    <h4 class="mt-2 mb-2 section-title">Счет реестр</h4>
+    {% if invoices %}
+        {% for invoice in invoices %}
+        <ul class="listview simple-listview">
+            <li>№: {{ forloop.counter }}</li>
+            <li>Услуга: {{ invoice.service.title }}</li>
+            <li>Выполняющая больница:{{ invoice.hospital }} </li>
+            <li>Дата выполнения: {{ invoice.date|date:"d.m.Y" }}</li>
+        </ul>
+        {% endfor %}
+    {% else %}
+        <div class="text-center">
+            <ul class="listview simple-listview">
+                <li>Информация нет</li>
+            </ul>
+        </div>
+    {% endif %}
+</div> 
+{% endblock %}

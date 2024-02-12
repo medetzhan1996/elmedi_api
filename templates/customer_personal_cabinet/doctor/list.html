@@ -1,0 +1,348 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% load customer_personal_cabinet %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+           <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i>Главная страница</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Запись к врачу</li>
+        </ol>
+     </nav>
+  </div>
+  <div class="col-md-12">
+     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-body">
+           <div class="form-card text-left">
+            <form >
+              <div class="row">
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Тип оплаты услуг: *</label>
+                       <select name="type_appeal" id=id_type_appeal class="form-control">
+                            <option value="">----------------</option>
+                            <option value="1" {% is_selected type_appeal 1 %}>ОМС (CHI)</option>
+                            <option value="2" {% is_selected type_appeal 2 %}>ДМС корпоративный</option>
+                            <option value="4" {% is_selected type_appeal 4 %}>ДМС индивидуальный</option>
+                            <option disabled>Платно</option>
+                            <option disabled>ОМС/ДМС перестраховочные</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Выберите тип клиники:*</label>
+                       <select name="status" id="id_status" class="form-control">
+                            <option value="">------------------</option>
+                            <option value="0" {% is_selected status 0 %}>Сельские клиники</option>
+                            <option value="1" {% is_selected status 1 %}>Районные клиники</option>
+                            <option value="2" {% is_selected status 2 %}>Городские клиники</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Выберите клинику: *</label>
+                       <select name="hospital" id="id_hospital" class="form-control">
+                            {% if status == '2' %}
+                                {% for customer_insurance in customer_insurances %}
+                                    {% get_hospitals customer_insurance.insurance.code customer_insurance.card_number as hospitals %}
+                                    {% get_of_unique_dicts hospitals as unique_dicts %}
+                                    {% if type_appeal == '1' %}
+                                        {% if customer_insurance.insurance.code == 'STATE' %}
+                                            <optgroup label="Доступные больницы, картыr{{ customer_insurance.card_number }}
+                                            ({{ customer_insurance.program }})">
+                                            <option value="" hidden>-----</option>
+                                            {% for hospital in unique_dicts %}
+                                                <option value="{{ hospital.hospital__code }}"
+                                                    {% is_selected hospital.hospital__code hospital_code %}
+                                                    data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code=hospital.hospital__code %}">
+                                                    {{ hospital.hospital__title }}
+                                                </option>
+                                            {% endfor %}
+                                        </optgroup>
+                                        {% endif %}
+                                    {% elif type_appeal == '2' %}
+                                        {% if customer_insurance.insurance.code == 'PASASIGORTA' or customer_insurance.insurance.code == 'GALASIGORTA' %}
+                                            <optgroup label="Доступные больницы, карты{{ customer_insurance.card_number }}
+                                            ({{ customer_insurance.program }})">
+                                            <option value="" hidden>-----</option>
+                                            {% for hospital in unique_dicts %}
+                                                <option value="{{ hospital.hospital__code }}"
+                                                    {% is_selected hospital.hospital__code hospital_code %}
+                                                    data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code=hospital.hospital__code %}">
+                                                    {{ hospital.hospital__title }}
+                                                </option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% elif type_appeal == '4' %}
+                                        {% if customer_insurance.insurance.code == 'MARKEZICLINIK' %}
+                                            <optgroup label="доступные больницы, карты {{ customer_insurance.card_number }}
+                                            ({{ customer_insurance.program }})">
+                                            <option value="" hidden>-----</option>
+                                            {% for hospital in unique_dicts %}
+                                                <option value="{{ hospital.hospital__code }}"
+                                                    {% is_selected hospital.hospital__code hospital_code %}
+                                                    data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code='markezi_clinik' %}">
+                                                    Маркази Клиник
+                                                </option>
+                                            {% endfor %}
+                                        {% elif customer_insurance.insurance.code == 'KAZIMOVA' %}
+                                            <optgroup label="Доступные больницы, карты {{ customer_insurance.card_number }}
+                                            ({{ customer_insurance.program }})">
+                                            <option value="" hidden>-----</option>
+                                            {% for hospital in unique_dicts %}
+                                                <option value="{{ hospital.hospital__code }}"
+                                                    {% is_selected hospital.hospital__code hospital_code %}
+                                                    data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code='kazimova' %}">
+                                                    Городская поликлиника №1 им.А.Казимова
+                                                </option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                    
+                                {% endfor %}
+                            {% endif %}
+                            {% for my_hospital in my_hospitals %}
+                                {% if my_hospital.code != 'markezi_clinik' %}
+                                    <option disabled>{{ my_hospital.title }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Выберите услугу*</label>
+                       <select name="service" id="id_service" class="form-control">
+                            {% if services %}
+                                <option data-url="">Выберите услугу</option>
+                                {% for service in services %}
+                                    <option value="{{service.id}}"
+                                        {% is_selected service.code service_code %}
+                                        data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=card_number_code hospital_code=hospital_code service_code=service.code %}">
+                                        {{service.title}}
+                                    </option>
+                                {% endfor %}
+                            {% else %}
+                                <option disabled>Сначала выберите больницу</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                 </div>
+              </div>
+            </form>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+<div class="row">
+{% if service_code %}
+    {% for doctor in doctors %}
+      <div class="col-sm-12 col-md-4">
+         <div class="iq-card">
+            <div class="iq-card-body text-center">
+               <div class="doc-profile">
+                  <img class="rounded-circle img-fluid avatar-80" src="{{ doctor.img.url }}" alt="profile">
+               </div>
+               <div class="iq-doc-info mt-3">
+                  <h4>{{ doctor.full_name }}</h4>
+                  {{ doctor.specialty }}
+                  <p class="mb-0">Адрес {{ doctor.hospital.address }}</p>
+               </div>
+               
+               <div class="iq-doc-social-info mt-3 mb-3">
+                  <ul class="m-0 p-0 list-inline">
+                     <li><a href="#"><i class="ri-facebook-fill"></i></a></li>
+                     <li><a href="#"><i class="ri-twitter-fill"></i></a> </li>
+                     <li><a href="#"><i class="ri-google-fill"></i></a></li>
+                  </ul>
+               </div>
+               <a href="#" data-doctor_id="{{ doctor.id }}"
+                    data-doctor_img="{{ doctor.img.url }}"
+                    data-specialty="{{ doctor.specialty }}"
+                    data-fullname="{{ doctor.full_name }}"
+                    data-hospital="{{ doctor.hospital.title }}"
+                    class="btn btn-primary appointment-doctor w-100 btn-sm"
+                    data-toggle="modal" data-target="#exampleModalCenter">
+                    Онлайн запись к врачу
+                </a>
+               <!-- <a href="profile.html" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"> Онлайн запись к врачу</a> -->
+            </div>
+         </div>
+      </div>
+    {% endfor %}
+{% endif %}
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none;">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Онлайн запись к врачу</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+       </div>
+       <div class="modal-body">
+          <div class="profile-head d-flex align-items-center">
+             <div class="avatar">
+                <img id="id_doctor_img" class="rounded-circle img-fluid avatar-80" src="{% static 'customer/assets/img/sample/avatar/avatar-02.jpg' %}" alt="profile">
+             </div>
+             <div class="in">
+                <h5 class="name" id="id_doctor_fullname">Murzabekova Bibigul Muxamedyarovna</h5>
+             </div>
+          </div>
+
+          <div class="mt-2"  id="appointment-create-content">
+            <input type="hidden" name="doctor" id="id_doctor">
+            <input type="hidden" name="hospital_title" id="id_hospital_title">
+            
+             <div class="form-group">
+                <label>Выберите дату приема*</label>
+                <input type="date" id="id_date" name="date" class="form-control">
+             </div>
+             <div class="form-group d-none" id="time_content">
+                <label>Выберите время приема *</label>
+                <select id="id_time" name="time" class="form-control">
+                    
+                </select>
+             </div>
+             <div class="form-group">
+                <button type="button" id="create-appointment" class="btn btn-primary btn-block btn-lg"  data-bs-dismiss="modal">Записаться</button>
+             </div>
+          </div>
+          <div id="appointment-perform-content" class="section mt-4 mb-5 d-none">
+                    <span style="color: red;">Вы успешно записаны на прием !</span>
+                    <a href="{% url 'customer_personal_cabinet:index' %}" class="btn btn-success btn-block btn-lg">
+                        Перейти на главный экран
+                    </a>
+                </div>
+       </div>
+    </div>
+ </div>
+</div>
+
+<script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).on('change', '#id_type_appeal', function() {
+            var type_appeal = $(this).val()
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('type_appeal', type_appeal);
+            window.location.search = urlParams;
+        })
+
+        $(document).on('change', '#id_status', function() {
+            var status = $(this).val()
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('status', status);
+            window.location.search = urlParams;
+        })
+
+        
+
+        $(document).on('change', '#id_hospital', function() {
+          var url = $('#id_hospital option:selected').data('url')
+          var status = $('#id_status').val()
+          var type_appeal = $('#id_type_appeal').val()
+          location.href = url + '?status=' + status + '&type_appeal=' + type_appeal
+        });
+
+        $(document).on('change', '#id_service', function() {
+          var url = $('#id_service option:selected').data('url')
+          var status = $('#id_status').val()
+          var type_appeal = $('#id_type_appeal').val()
+          location.href = url + '?status=' + status + '&type_appeal=' + type_appeal
+        });
+
+        $(document).on('click', '.appointment-doctor', function() {
+            var doctor_id = $(this).data('doctor_id')
+            var doctor_img = $(this).data('doctor_img')
+            var specialty = $(this).data('specialty')
+            var fullname = $(this).data('fullname')
+            var hospital = $(this).data('hospital')
+            $('#id_doctor_img').attr('src', doctor_img)
+            $('#id_specialty').html(specialty)
+            $('#id_doctor_fullname').html(fullname)
+            $('#id_doctor').val(doctor_id)
+            $('#id_hospital_title').val(hospital)
+                            
+        });
+
+
+        $(document).on('change', '#id_date', function() {
+            var date = $('#id_date').val()
+            var doctor = $('#id_doctor').val()
+            $.ajax({
+              type: "GET",
+              url: "{% url 'customer_personal_cabinet:doctor_appointment' doctor=0 %}".replace('0', doctor),
+              data: {
+                date: date
+              },
+              success: function(data){
+                $('#time_content').removeClass('d-none')
+                $('#id_time').html(data)
+              },
+              error: function(data, errorThrown)
+              {
+                  alert('request failed :'+errorThrown);
+              }
+            }); 
+        })
+
+
+        $(document).on('click', '#create-appointment', function() {
+            var type_appeal = $("#id_type_appeal").val()
+            var date = $('#id_date').val()
+            var doctor = $('#id_doctor').val()
+            var hospital_title = $('#id_hospital_title').val()
+            var doctor_fullname = $('#id_doctor_fullname').html()
+            var time = $('#id_time').val()
+            var my_data = {
+                csrfmiddlewaretoken: '{{ csrf_token  }}',
+                date: date,
+                doctor: doctor,
+                time: time,
+                service: "{{ service_code }}",
+                customer_insurance: "{{ card_number_code }}",
+                type_appeal: type_appeal,
+                place: 3,
+                sending_hospital: "{{ hospital_code }}",
+                directed_hospital: "{{ hospital_code }}",
+                icd: 'T14.9',
+                doctor_full_name: doctor_fullname
+            }
+            $.ajax({
+              type: "POST",
+              url: "{% url 'customer_personal_cabinet:doctor_appointment_create' %}",
+              data: my_data,
+              success: function(data){
+                location.href = `{% url 'customer_personal_cabinet:index' %}?appointment=True&doctor=${doctor_fullname}&date=${date}&time=${time}&hospital_title=${hospital_title}`
+              },
+              error: function(data, errorThrown)
+              {
+                alert('request failed :'+data);
+                console.log(data)
+              }
+            }); 
+        })
+
+        
+
+        
+        
+    });
+</script>
+{% endblock %}
+

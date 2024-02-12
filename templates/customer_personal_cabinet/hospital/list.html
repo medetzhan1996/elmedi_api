@@ -1,0 +1,25 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% load customer_personal_cabinet %}
+
+{% block content %}
+    <div class="section full">
+        &nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-secondary goTop show">
+               <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+            </a>
+        {% for customer_insurance in customer_insurances %}
+            {% get_hospitals customer_insurance.insurance.code customer_insurance.card_number as hospitals %}
+            {% get_of_unique_dicts hospitals as unique_dicts %}
+            <div class="section-title">Доступные больницы, карточки {{ customer_insurance.card_number }}</div>
+            <ul class="listview simple-listview">
+                {% for hospital in unique_dicts %}
+                    <li>
+                        <a href="{% url 'customer_personal_cabinet:hospital_service_list' card_number=customer_insurance.card_number hospital_code=hospital.hospital__code %}">
+                            {{ hospital.hospital__title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

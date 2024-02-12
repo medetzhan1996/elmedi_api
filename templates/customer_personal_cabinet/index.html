@@ -1,0 +1,148 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+   <div class="col-sm-12 col-lg-12">
+      <div class="iq-card">
+         <div class="iq-card-body">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+               <div class="carousel-inner">
+                  <div class="carousel-item carousel-item-next carousel-item-left">
+                     В Баку по адресу Ичеришехер 21 открылась новая клиника.
+                  </div>
+                  <div class="carousel-item active carousel-item-left">
+                   SN AZ расширил перечень амбулаторных услуг, доступных в рамках ОМС
+                  </div>
+               </div>
+               <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span class="sr-only">Previous</span>
+               </a>
+               <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+               <span class="sr-only">Next</span>
+               </a>
+            </div>
+         </div>
+      </div>
+        {% if appointment %}
+        <div class="section main-list ">
+           <p style="line-height: 20px;padding-bottom: 0px!important;margin-bottom: 0px ;color: red;">
+               Вы записаны на прием: врач  {{ request.GET.doctor }},
+               дата {{ request.GET.date }}, время {{ request.GET.time }},клиника {{ request.GET.hospital_title }}
+            </p>
+
+        </div>
+        {% endif %}
+   </div>
+  
+   <div class="col-md-12 col-lg-12">
+      <div class="row">
+         <div class="col-md-4 col-lg-4">
+            <a href="{% url 'customer_personal_cabinet:pay_program_list' %}">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-body">
+                  <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                     <div class="info-image mr-3">
+                        <img src="{% static 'new/main/icon6.png' %}"  width="75" class="img-fluid" alt="image-box">
+                     </div>
+                     <div class="info-text">
+                        <span>Магазин страховых программ</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </a>
+         </div>
+         <div class="col-md-4 col-lg-4">
+            <a href="{% url 'customer_personal_cabinet:insurance_list' %}">
+               <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                  <div class="iq-card-body">
+                     <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                        <div class="info-image mr-3">
+                           <img src="{% static 'new/main/icon1.png' %}" class="img-fluid" alt="image-box" width="75">
+                        </div>
+                        <div class="info-text">
+                           <span>Мои медицинские страховки {{ customer_insurances }}</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </a>
+         </div>
+         <div class="col-md-4 col-lg-4">
+            {% if view.kwargs.hospital and view.kwargs.service %}
+                {% url 'customer_personal_cabinet:doctor_list' card_number=view.kwargs.card_number hospital_code=view.kwargs.hospital service_code=view.kwargs.service as doctor_list_url %}
+            {% else %}
+                {% url 'customer_personal_cabinet:doctor_list' as doctor_list_url %}
+            {% endif %}
+            <a href="{{ doctor_list_url }}">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-body">
+                  <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                     <div class="info-image mr-3">
+                        <img src="{% static 'new/main/doctor.png' %}"  width="75" class="img-fluid" alt="image-box">
+                     </div>
+                     <div class="info-text">
+                        <span>Запись к врачу</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </a>
+         </div>
+         <div class="col-md-4 col-lg-4">
+            <a href="{% url 'customer_personal_cabinet:attached_document' %}">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-body">
+                  <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                     <div class="info-image mr-3">
+                        <img src="{% static 'new/main/icon2.png' %}" width="75" class="img-fluid" alt="image-box">
+                     </div>
+                     <div class="info-text">
+                        <span>Мои истории болезней и услуг </span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </a>
+         </div>
+         <div class="col-md-4 col-lg-4">
+            <a href="">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-body">
+                  <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                     <div class="info-image mr-3">
+                        <img src="{% static 'new/main/hospital.png' %}" width="75" class="img-fluid" alt="image-box">
+                     </div>
+                     <div class="info-text">
+                        <span>Услуги сторонних организаций</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </a>
+         </div>
+         
+         <div class="col-md-4 col-lg-4">
+            <a href="">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+               <div class="iq-card-body">
+                  <div class="iq-info-box d-flex flex-column align-items-center p-3">
+                     <div class="info-image mr-3">
+                        <img src="{% static 'new/main/icon5.png' %}"  width="75" class="img-fluid" alt="image-box">
+                     </div>
+                     <div class="info-text">
+                        <span>Подписи</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </a>
+         </div>
+         
+      </div>             
+   </div>
+</div>
+
+{% endblock %}

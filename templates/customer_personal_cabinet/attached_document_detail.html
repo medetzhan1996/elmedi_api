@@ -1,0 +1,30 @@
+{% extends "customer_personal_cabinet/base.html" %}
+
+{% block content %}
+<div class="row">
+ <div class="col-md-12 col-sm-12">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+           <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i>Главная страница</a></li>
+           <li class="breadcrumb-item active" aria-current="page">История болезни и услуг</li>
+        </ol>
+     </nav>
+ </div>
+ <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <a href="{{ attached_document.screen }}" download class="btn btn-success">Скачать</a>
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+            <div class="row">
+                <img src="{{ attached_document.screen }}" style="width:100%">
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}

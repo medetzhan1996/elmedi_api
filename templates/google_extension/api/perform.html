@@ -1,0 +1,28 @@
+
+<form id="widget-perform-referral-form" action="{% url 'referral_api:referral_perform' pk=referral.id %}" method="POST">
+    {% csrf_token %}
+    <div class="euromedix-mb-10">
+        <label>Страховая карта:</label>
+        {{ referral.card }} 
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Кем направлена:</label>
+        {{ referral.directed_hospital }} 
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выбранная услуга:</label>
+        {{ referral.service }} 
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Мкб-10:</label>
+        {{ referral.icd }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Направивший доктор:</label>
+        {{ referral.doctor_full_name }}
+    </div>
+    <div class="euromedix-mb-10" style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Выполнить направления" class="btn btn-success">
+        <button type="button" id="widget-go-back" class="btn btn-white">Вернуться назад</button>
+    </div>
+</form>

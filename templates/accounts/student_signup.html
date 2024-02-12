@@ -1,0 +1,10 @@
+{% load i18n %}
+<h2>
+  {% trans "Войти как студент" %}
+</h2>
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="email" name="email" value="">
+  <input type="password" name="password1" value="">
+  <button type="submit">Sign Up</button>
+</form>

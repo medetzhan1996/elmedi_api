@@ -1,0 +1,9 @@
+{
+    "HOSPITALS_TO_SERVERS": {
+        "hospital1": "http://82.200.165.222:1230/"
+    },
+    "INSURANCES_TO_SERVERS": {
+        "insurance1": "http://82.200.165.222:19601/"
+    }
+}
+

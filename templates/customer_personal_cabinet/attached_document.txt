@@ -1,0 +1,84 @@
+<div class="section full mb-3">
+    &nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-primary goTop show">
+           <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+        </a>
+    <div class="section-title" style="color:red">История болезни</div>
+    <div class="wide-block p-0">
+
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    {% for attached_document in attached_documents %}
+                    <tr>
+                        <th scope="row">
+                            {% if attached_document.file %}
+                            <a href="{{ attached_document.file.url }}" download>{{ attached_document.title|default_if_none:"Без названия" }}</a>
+                            {% elif attached_document.screen %}
+                               <a href="{{ attached_document.screen }}" download>
+                                    {{ attached_document.title|default_if_none:"Без названия" }}
+                                </a>
+                          {% endif %}
+                                    <span class="over"> [{{ attached_document.uploaded_at|date:"d.m.Y" }}] [{{ forloop.counter }}]</span>
+                        </th>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>
+                            У вас нет загруженных документов
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+    <div class="section full mt-1">
+    <h4 class="section-title" style="color:red;">Список направлений</h4>
+    {% if referrals %}
+        <div class="row">
+        {% for referral in referrals %}
+            <div class="col-md-4">
+                <ul class="listview simple-listview">
+                    <li>Услуга: {{ referral.service.title }}</li>
+                   
+                    <!-- <li>Направляющая больница: {{ referral.sending_hospital.title }}</li> -->
+                    <li>Направляющая клиника: {{ referral.directed_hospital.title }}</li>
+                    <li>Дата направления: {{ referral.date|date:"d.m.Y" }}</li>
+                    <li>Направляющий доктор: {{ referral.doctor_full_name|default_if_none:"-" }}</li>
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center">
+            <ul class="listview simple-listview">
+                <li>Информации нет</li>
+            </ul>
+        </div>
+    {% endif %}
+    <h4 class="mt-2 mb-2 section-title" style="color:red;">Счет реестры</h4>
+    {% if invoices %}
+        <div class="row">
+            {% for invoice in invoices %}
+            <div class="col-md-4">
+                <ul class="listview simple-listview">
+                    <li>№: {{ forloop.counter }}</li>
+                    <li>Услуга: {{ invoice.service.title }}</li>
+                    <li>Выполняющая больница:{{ invoice.hospital }} </li>
+                    <li>Дата выполнения: {{ invoice.date|date:"d.m.Y" }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center">
+            <ul class="listview simple-listview">
+                <li>Информации нет</li>
+            </ul>
+        </div>
+    {% endif %}
+</div> 
