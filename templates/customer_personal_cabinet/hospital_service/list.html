@@ -1,0 +1,23 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% block content %}
+<div class="section full">
+    <!-- <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data</li>
+      </ol>
+    </nav> -->
+	<div class="section-title">Доступные услуги</div>
+    <ul class="listview simple-listview">
+        {% for service in hospital_services %}
+            <li>
+                <a href="{% url 'customer_personal_cabinet:appointment_method' card_number=card_number  hospital=hospital.code service=service.code %}">
+                    {{ service.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

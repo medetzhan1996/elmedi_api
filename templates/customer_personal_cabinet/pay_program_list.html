@@ -1,0 +1,299 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% load customer_personal_cabinet %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white">
+               <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i>Главная страница</a></li>
+               <li class="breadcrumb-item active" aria-current="page">Магазин индивидуальных страховых программ</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-md-12">
+     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-body">
+           <div class="form-card text-left">
+              <div class="row">
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Выберите тип клиники *</label>
+                       <select name="status" id="id_status" class="form-control">
+
+                            <option value="0">Сельские клиники</option>
+                            <option value="1">Районные клиники</option>
+                            <option value="2" selected>Городские клиники</option>
+                        </select>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                       <label>Выберите клинику * </label>
+                       <select id="id_hospital" class="form-control">
+                            <option value="">&nbsp</option>
+                            <optgroup id="id-group-city">
+                                 <option value="1">Клиника Маркези</option>
+                                 <option value="2">Городская поликлиника №1 имени А.Казымова</option>
+                                 <option disabled="">Abşeron Rayon Mərkəzi Xəstəxanası</option>
+                             </optgroup>
+                             <optgroup id="id-group-raion" class="d-none">
+                                 <option disabled="">Abşeron Rayon Poliklinikası</option>
+                                 <option disabled="">Abşeron rayon Uşaq poliklinikası</option>
+                                 <option disabled="">Ağdam Rayon Mərkəzi Xəstəxanası</option>
+                             </optgroup>
+                             <optgroup id="id-group-selo" class="d-none">
+                                 <option disabled="">Hindarks Kənd Xəstəxanası</option>
+                                 <option disabled="">Mahrizli Kənd Xəstəxanası</option>
+                                 <option disabled="">Hindistan Kənd Xəstəxanası</option>
+                             </optgroup>
+                        </select>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+    </div>
+</div>
+<div id="kazimova-program-content" class="row d-none">
+    {% for program in kazimova_programs %}
+      <div class="col-sm-12 col-md-4">
+         <div class="iq-card">
+            <div class="iq-card-body">
+               <div class="about-info m-0 p-0">
+                  <p class="mb-1"><b>Программа: </b>{{ program.title }}</p>
+                  <p class="mb-1">
+                    <b>Тип оплаты услуг: </b>
+                    {% if program.pay_type == 1 %}
+                        ДМС индивидуальный
+                    {% else %}
+                        ОМС/ДМС перестраховочные
+                    {% endif %}
+                  </p>
+                  <p class="mb-1"><b>Пакеты: </b>
+                    {% for package in program.package_set %}
+
+                        <a class="a-link" data-services="
+                            {% for packageservice in package.packageservice_set %}
+                                <p>{{ forloop.counter }}) {{packageservice.service}}</p>
+                            {% endfor %}
+                        ">{{ package.title }}</a>,
+                    {% endfor %}</p>
+                  <p class="mb-1"><b>Лимит: </b>{{ program.service_limit }}</p>
+                  <p class="mb-1"><b>Срок программы: </b>
+                  {{ program.contract.start_date }} :
+                  {{ program.contract.end_date }}</p>
+               </div>
+               {% check_pay_program program.contract.id program.id request.user.customer.iin as pay_program %}
+               {% if pay_program %}
+                    <button class="btn btn-primary">
+                    
+                    {% if program.pay_type == 1 %}
+                        Куплена
+                    {% else %}
+                        Подписана 
+                    {% endif %}
+                    </button>
+                    <a href="{% url 'customer_personal_cabinet:pay_program_contract_list'  pk=program.id %}">Посмотреть контракт</a>
+                {% else %}
+                    <button class="pay-program btn btn-success" data-contract="{{ program.contract.id }}" data-program="{{ program.id }}" data-hospital="KAZIMOVA">
+                        {% if program.pay_type == 1 %}
+                            Купить
+                        {% else %}
+                            Подписаться 
+                        {% endif %}
+                    </button>
+                {% endif %}
+            </div>
+         </div>
+      </div>
+    {% endfor %}
+
+    <!-- The Modal -->
+    
+      
+    </div>
+<div id="program-content" class="row d-none">
+    {% for program in programs %}
+      <div class="col-sm-12 col-md-4">
+         <div class="iq-card">
+            <div class="iq-card-body">
+               <div class="about-info m-0 p-0">
+                  <p class="mb-1"><b>Программа: </b>{{ program.title }}</p>
+                  <p class="mb-1">
+                    <b>Тип оплаты услуг: </b>
+                    {% if program.pay_type == 1 %}
+                        ДМС индивидуальный
+                    {% else %}
+                        ОМС/ДМС перестраховочные
+                    {% endif %}
+                  </p>
+                  <p class="mb-1"><b>Пакеты: </b>
+                    {% for package in program.package_set %}
+
+                        <a class="a-link" data-services="
+                            {% for packageservice in package.packageservice_set %}
+                                <p>{{ forloop.counter }}) {{packageservice.service}}</p>
+                            {% endfor %}
+                        ">{{ package.title }}</a>,
+                    {% endfor %}</p>
+                  <p class="mb-1"><b>Лимит: </b>{{ program.service_limit }}</p>
+                  <p class="mb-1"><b>Срок программы: </b>
+                  {{ program.contract.start_date }} :
+                  {{ program.contract.end_date }}</p>
+               </div>
+               {% check_pay_program program.contract.id program.id request.user.customer.iin as pay_program %}
+               {% if pay_program %}
+                    <button class="btn btn-primary">
+                    
+                    {% if program.pay_type == 1 %}
+                        Куплена
+                    {% else %}
+                        Подписана
+                    {% endif %}
+                    </button>
+                    <a href="{% url 'customer_personal_cabinet:pay_program_contract_list'  pk=program.id %}">Посмотреть контракт </a>
+                {% else %}
+                    <button class="pay-program btn btn-success" data-contract="{{ program.contract.id }}" data-program="{{ program.id }}"  data-hospital="MARKEZICLINIK">
+                        {% if program.pay_type == 1 %}
+                            Купить
+                        {% else %}
+                            Подписаться
+                        {% endif %}
+                    </button>
+                {% endif %}
+            </div>
+         </div>
+      </div>
+    {% endfor %}
+
+    <!-- The Modal -->
+    
+      
+    </div>
+    <!-- <div>
+        {% for program in state_programs %}
+          <div class="col-sm-12 col-md-4">
+             <div class="iq-card">
+                <div class="iq-card-body">
+                   <div class="about-info m-0 p-0">
+                      <p class="mb-1"><b>Программа: </b>{{ program.title }}</p>
+                      <p class="mb-1"><b>Пакеты: </b>
+                        {% for package in program.package_set %}
+                            <a class="a-link" data-services="
+                                {% for packageservice in package.packageservice_set %}
+                                    <p>{{ forloop.counter }}) {{packageservice.service}}</p>
+                                {% endfor %}
+                            ">{{ package.title }}</a>,
+                        {% endfor %}</p>
+                      <p class="mb-1"><b>Срок программы: </b>
+                      {{ program.contract.start_date }} :
+                      {{ program.contract.end_date }}</p>
+                   </div>
+                   <button class="btn btn-primary">
+                        Подписана
+                    </button>
+                </div>
+             </div>
+          </div>
+    {% endfor %}
+    </div> -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Покрываемые услуги, пакета <span id="modal-package"></h4>
+            </div>
+            <div class="modal-body" id="my-modal-content">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(document).on('click', '.pay-program', function() {
+        var contract = $(this).data('contract')
+        var program = $(this).data('program')
+        var hospital_code = $(this).data('hospital')
+        $.ajax({
+          type: "POST",
+          url: "{% url 'customer_personal_cabinet:pay_program_list' %}",
+          data: {
+            contract: contract,
+            program: program,
+            hospital_code: hospital_code,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function(data){
+            window.location.replace(window.location.href + "?pay=true")
+          },
+          error: function(data, errorThrown)
+          {
+              alert('request failed :'+errorThrown);
+          }
+        }); 
+    })
+
+    $(document).on('change', '#id_hospital', function() {
+        var hospital = $(this).val()
+        if(hospital == 1){
+            $('#program-content').removeClass('d-none')
+            $('#kazimova-program-content').addClass('d-none')
+        }
+        else if(hospital == 2){
+            $('#program-content').addClass('d-none')
+            $('#kazimova-program-content').removeClass('d-none')
+        }
+        else{
+            $('#program-content').addClass('d-none')
+            $('#kazimova-program-content').addClass('d-none')
+        }
+
+        
+    })
+
+    $(document).on('click', '.a-link', function() {
+        var services = $(this).data('services')
+        var title = $(this).text()
+        $('#modal-package').html(title)
+        $('#my-modal-content').html(services)
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'))
+        myModal.show()
+        
+    })
+
+    $(document).on('click', '#close-modal', function() {
+        $('.modal.in').modal('hide')
+    })
+
+    $(document).on('change', '#id_status', function() {
+        var val = $(this).val()
+        if(val == '0'){
+            $('#id-group-city').addClass('d-none')
+            $('#id-group-raion').addClass('d-none')
+            $('#id-group-selo').removeClass('d-none')
+        }
+        else if(val == '1'){
+            $('#id-group-city').addClass('d-none')
+            $('#id-group-raion').removeClass('d-none')
+            $('#id-group-selo').addClass('d-none')
+        }
+        else if(val == '2'){
+            $('#id-group-city').removeClass('d-none')
+            $('#id-group-raion').addClass('d-none')
+            $('#id-group-selo').addClass('d-none')
+        }
+    })
+    
+    
+    
+</script>
+{% endblock %}

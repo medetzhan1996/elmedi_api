@@ -1,0 +1,10 @@
+{% for referral in referrals %}
+    <p class="service-perform" data-id="{{ referral.id }}">
+        {{ referral.service.title }} /
+        {{ referral.sending_hospital.title }} /
+        {{ referral.date|date:"d.m.Y" }} /
+        {{ referral.get_status_display }}
+    </p>
+{% empty %}
+    <p>Нет направленных услуг!</p>
+{% endfor %}

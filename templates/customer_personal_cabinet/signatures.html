@@ -1,0 +1,29 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+.appFooter{
+	display: none;
+}
+</style>
+<div class="error-page">
+	<div class="icon-box text-success">
+	   <ion-icon name="checkmark-circle" role="img" class="md hydrated" aria-label="checkmark circle"></ion-icon>
+	</div>
+	<h1 class="title">Подтвердите подписку</h1>
+	<div class="text mb-5">
+	    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	</div>
+
+	<div class="fixed-footer">
+	    <div class="row">
+	        <div class="col-6">
+	            <a href="app-components.html" class="btn btn-secondary btn-lg btn-block">Отмена</a>
+	        </div>
+	        <div class="col-6">
+	            <a href="app-components.html" class="btn btn-primary btn-lg btn-block">Подтвердить</a>
+	        </div>
+	    </div>
+	</div>
+</div>
+{% endblock %}

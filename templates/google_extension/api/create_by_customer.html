@@ -1,0 +1,37 @@
+{% load widget_tweaks %}
+<form id="widget-create-referral-form" action="" method="POST">
+    {% csrf_token %}
+    <div class="euromedix-mb-10">
+        <label>Выберите страховую карту:</label>
+        {{ form.customer_insurance|add_class:"euromedix-form-controller" }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите тип направленя:</label>
+        {{ form.type_appeal|add_class:"euromedix-form-controller" }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите места оказания услуги:</label>
+        {{ form.place|add_class:"euromedix-form-controller" }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите мкб-10:</label>
+        <select id="id_icd" name="icd" class="euromedix-form-controller"></select>
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите куда направить:</label>
+        {{ form.directed_hospital|add_class:"euromedix-form-controller" }}
+    </div>
+    <div class="euromedix-mb-10">
+        <label>Выберите услугу:</label>
+        <select id="id_service" name="service" class="euromedix-form-controller"></select> 
+    </div>
+    <div class="euromedix-mb-10">
+        <!--b>Выполняющий доктор:</b><br>
+        {{ form.doctor_full_name|add_class:"euromedix-form-controller" }} <br><br-->
+        <p><u id="error-message" style="color:red;font-size:15px;"></u></p>
+    </div>
+    <div class="euromedix-mb-10" style="display: flex; justify-content: space-between;">
+        <input type="submit" value="Отправить направления"  class="btn btn-success">
+        <button type="submit" id="widget-go-back" class="btn btn-white">Вернуться назад</button>
+    </div>
+</form>

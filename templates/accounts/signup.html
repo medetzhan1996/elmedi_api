@@ -1,0 +1,136 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>qeydiyyatdan keçin</title>
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="images/favicon.ico" />
+      <!-- Bootstrap CSS -->
+     
+      <link rel="stylesheet" href="{% static 'new/css/bootstrap.min.css' %}">
+      <!-- Typography CSS -->
+      <link rel="stylesheet" href="{% static 'new/css/typography.css' %}">
+      <!-- Style CSS -->
+      <link rel="stylesheet" href="{% static 'new/css/style.css' %}">
+      <!-- Responsive CSS -->
+      <link rel="stylesheet" href="{% static 'new/css/responsive.css' %}">
+   </head>
+   <body>
+      <!-- loader Start -->
+      <style type="text/css">
+      	.help-block{
+      		display: none;
+      	}
+      	.controls ul{
+      		display: none;
+      	}
+      	input{
+      		width: 100%;
+		    height: 41px;
+		    border-radius: 6px;
+		    border: 1px solid #afafaf;
+      	}
+      </style>
+      <!-- loader END -->
+        <!-- Sign in Start -->
+        <section class="sign-in-page">
+            <div class="container sign-in-page-bg mt-5 p-0">
+                <div class="row no-gutters align-items-center">
+                    <div class="col-md-6 text-center">
+                        <div class="sign-in-detail text-white">
+                            <a class="sign-in-logo mb-5 text-white" style="font-size: 30px;" href="sign-up.html#">HAZAR ECOSYSTEMS</a>
+                            <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
+                                <div class="item">
+                                    <img src="{% static 'new/images/login/1.png' %}" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Управляйте своими заказами</h4>
+                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                </div>
+                                <div class="item">
+                                    <img src="{% static 'new/images/login/2.png' %}" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Управляйте своими заказами</h4>
+                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                </div>
+                                <div class="item">
+                                    <img src="{% static 'new/images/login/3.png' %}" class="img-fluid mb-4" alt="logo">
+                                    <h4 class="mb-1 text-white">Управляйте своими заказами</h4>
+                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 position-relative">
+                        <div class="sign-in-from" style="position:initial;">
+                            <h1 class="mb-0" style="font-size: 30px;">Зарегистрироваться</h1>
+                            <form action="" method="post" class="mt-4">
+								{% csrf_token %}
+                                {% crispy form %}
+                                {% crispy customer_form %}
+								<input type="hidden" name="role" value="2">
+								
+								<div class="d-inline-block w-100 mt-3">
+                                    <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">Я принимаю <a href="#">Условия использования</a></label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary float-right">Зарегистрироваться</button>
+                                </div>
+                                <div class="sign-info">
+                                    <span class="dark-color d-inline-block line-height-2">У вас уже есть аккаунт?><a href="{% url 'login' %}">Авторизоваться</a></span>
+                                   
+                                </div>
+							</form>
+                            <!-- <form class="mt-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Your Full Name</label>
+                                    <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Email address</label>
+                                    <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
+                                </div>
+                                <div class="d-inline-block w-100">
+                                    <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">I accept <a href="sign-up.html#">Terms and Conditions</a></label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary float-right">Sign Up</button>
+                                </div>
+                                <div class="sign-info">
+                                    <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="sign-up.html#">Log In</a></span>
+                                   
+                                </div>
+                            </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Sign in END -->
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="{% static 'new/js/jquery.min.js' %}"></script>
+      <script src="{% static 'new/js/popper.min.js' %}"></script>
+      <script src="{% static 'new/js/bootstrap.min.js' %}"></script>
+      <!-- Appear JavaScript -->
+      <script src="{% static 'new/js/jquery.appear.js' %}"></script>
+      <script src="{% static 'new/js/select2.min.js' %}"></script>
+      <!-- Owl Carousel JavaScript -->
+      <script src="{% static 'new/js/owl.carousel.min.js' %}"></script>
+      <!-- Magnific Popup JavaScript -->
+      <script src="{% static 'new/js/jquery.magnific-popup.min.js' %}"></script>
+      <!-- Smooth Scrollbar JavaScript -->
+      <script src="{% static 'new/js/smooth-scrollbar.js' %}"></script>
+      <!-- Chart Custom JavaScript -->
+      <script src="{% static 'new/js/chart-custom.js' %}"></script>
+      <!-- Custom JavaScript -->
+      <script src="{% static 'new/js/custom.js' %}"></script>
+   </body>
+</html>

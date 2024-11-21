@@ -1,0 +1,280 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% load customer_personal_cabinet %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+           <li class="breadcrumb-item"><a href="{% url 'customer_personal_cabinet:index' %}" class="text-danger"><i class="ri-home-4-line mr-1 float-left"></i> Главная страница </a></li>
+           <li class="breadcrumb-item active" aria-current="page">Мои медицинские страховки </li>
+        </ol>
+     </nav>
+  </div>
+  <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">ОМС(CHI)</h4>
+           </div>
+        </div>
+        <div class="iq-card-body">
+           <div class="row">
+            {% if customer_insurances %}
+                {% for customer_insurance in customer_insurances %}
+                    
+                    {% if customer_insurance.insurance.code == 'STATE'%}
+                        {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-4">
+                         <div class="about-info m-0 p-0">
+                            <div class="row">
+                                <div class="col-7">Ваша программа::</div>
+                               <div class="col-5">{{ customer_insurance.program }}</div>
+                               <div class="col-7">Номер карты:</div>
+                               <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               <div class="col-7">Ваш страхователь: </div>
+                               <div class="col-5">Государства</div>
+                               
+                               <div class="col-7">Дата начало страховки:</div>
+                               <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Дата окончания страховки:</div>
+                               <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Пол:</div>
+                               <div class="col-5">{{ customer_insurance.customer.gender }}</div>
+                               <!-- <div class="col-7">Текущий лимит:</div>
+                               <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                               <div class="col-7">Потраченная сумма:</div>
+                               <div class="col-5">
+                                    {{ contract_customer.invoice_sum }}
+                               </div> -->
+                            </div>
+                         </div>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <b>У данного клиента, нет действущей карты!</b>
+            {% endif %}
+
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">ДМС корпоративный </h4>
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+           <div class="row">
+            {% if customer_insurances %}
+                {% for customer_insurance in customer_insurances %}
+                    {% if customer_insurance.insurance.code == 'PASASIGORTA' %}
+                      {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-6">
+                         <div class="about-info m-0 p-0">
+                            <div class="row">
+                               <div class="col-7">Ваша программа:</div>
+                                <div class="col-5">{{ customer_insurance.program }}</div>
+                                <div class="col-7">Номер карты:</div>
+                                <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               
+                                <div class="col-7">Ваш страхователь:</div>
+                                <div class="col-5"> {{ customer_insurance.insurer }}</div>
+                                <div class="col-7">Ваш страховщик:</div>
+                                <div class="col-5">{{ customer_insurance.insurance.title }}</div>
+                                <div class="col-7">Дата начала действия страховки:</div>
+                                <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                                <div class="col-7">Срок действия страховки:</div>
+                                <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                                <div class="col-7">Текущий лимит:</div>
+                                <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                                <div class="col-7">Сумма потрачена:</div>
+                               <div class="col-5">
+                                    {{ contract_customer.invoice_sum }}
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    {% endif %}
+                    {% if customer_insurance.insurance.code == 'GALASIGORTA' %}
+                      {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-6">
+                         <div class="about-info m-0 p-0">
+                            <div class="sətir">
+                                 <div class="col-7">Ваша программа:</div>
+                                <div class="col-5">{{ customer_insurance.program }}</div>
+                                <div class="col-7">Номер карты:</div>
+                                <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               
+                                <div class="col-7">Ваш страхователь:</div>
+                                <div class="col-5"> {{ customer_insurance.insurer }}</div>
+                                <div class="col-7">Ваш страховщик:</div>
+                                <div class="col-5">{{ customer_insurance.insurance.title }}</div>
+                                <div class="col-7">Дата начала действия страховки:</div>
+                                <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                                <div class="col-7">Срок действия страховки:</div>
+                                <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                                <div class="col-7">Текущий лимит:</div>
+                                <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                                <div class="col-7">Сумма потрачена:</div>
+                                <div class="col-5">
+                                     {{ contract_customer.invoice_sum }}
+                                </div>
+                            </div>
+                         </div>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <b>У данного клиента, нет действущей карты!</b>
+               
+            {% endif %}
+           </div>
+        </div>
+     </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">ДМС индивидуальный</h4>
+              <!-- <h4 class="card-title">Fərdi VHI</h4> -->
+           </div>
+           
+        </div>
+        <div class="iq-card-body">
+           <div class="row">
+            {% if customer_insurances %}
+
+                {% for customer_insurance in customer_insurances %}
+                    {% if customer_insurance.insurance.code == 'MARKEZICLINIK' and customer_insurance.pay_type == 1 %}
+                      {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-4">
+                         <div class="about-info m-0 p-0">
+                            <div class="row">
+                                <div class="col-7">Ваша программа:</div>
+                               <div class="col-5">{{ customer_insurance.program }}</div>
+                               <div class="col-7">Номер карты:</div>
+                               <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               
+                               <div class="col-7">Страхователь: :</div>
+                               <div class="col-5">{{ customer_insurance.insurer }}</div>
+                               <div class="col-7">Страховщик:</div>
+                               <div class="col-5">{{ request.user.customer.full_name }}</div>
+                               <div class="col-7">Страховщик:</div>
+                               <div class="col-5">Pasasigorta</div>
+                               <div class="col-7">Дата начало страховки::</div>
+                               <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Дата окончания страховки:</div>
+                               <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Текущий лимит:</div>
+                               <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                               <div class="col-7">Потраченная сумма:</div>
+                               
+                               <div class="col-5">
+                                   {{ contract_customer.invoice_sum }}
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    {% elif customer_insurance.insurance.code == 'KAZIMOVA' and customer_insurance.pay_type == 1 %}
+                      {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-4">
+                         <div class="about-info m-0 p-0">
+                            <div class="row">
+                                <div class="col-7">Ваша программа:</div>
+                               <div class="col-5">{{ customer_insurance.program }}</div>
+                               <div class="col-7">Номер карты:</div>
+                               <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               
+                               <div class="col-7">Ваш страхователь: :</div>
+                               <div class="col-5">{{ customer_insurance.insurer }}</div>
+                               <div class="col-7">Ваш страховщик:</div>
+                               <div class="col-5">{{ request.user.customer.full_name }}</div>
+                               <div class="col-7">Дата начало страховки::</div>
+                               <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Дата окончания страховки:</div>
+                               <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Текущий лимит:</div>
+                               <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                               <div class="col-7">Потраченная сумма:</div>
+                               
+                               <div class="col-5">
+                                   {{ contract_customer.invoice_sum }}
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <b>У данного клиента, нет действущей карты!</b>
+                
+            {% endif %}
+
+           </div>
+        </div>
+     </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+        <div class="iq-card-header d-flex justify-content-between">
+           <div class="iq-header-title">
+              <h4 class="card-title">ОМС/ДМС перестраховочные</h4>
+           </div>
+        </div>
+        <div class="iq-card-body">
+           <div class="row">
+            {% if customer_insurances %}
+                {% for customer_insurance in customer_insurances %}
+                    
+                    {% if customer_insurance.insurance.code == 'MARKEZICLINIK' and customer_insurance.pay_type == 2 %}
+                        {% get_contract_customer_tag 'DEFAULT' customer_insurance.card_number as contract_customer %}
+                      <div class="col-md-4">
+                         <div class="about-info m-0 p-0">
+                            <div class="row">
+                                <div class="col-7">Ваша программа:</div>
+                               <div class="col-5">{{ customer_insurance.program }}</div>
+                               <div class="col-7">Номер карты:</div>
+                               <div class="col-5">{{ customer_insurance.card_number }}</div>
+                               <div class="col-7">Ваш страхователь: :</div>
+                               <div class="col-5">{{ customer_insurance.insurer }}</div>
+                               <div class="col-7">Ваш страховщик:</div>
+                               <div class="col-5">{{ request.user.customer.full_name }}</div>
+                               <div class="col-7">Дата начало страховки::</div>
+                               <div class="col-5">{{ customer_insurance.begin_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Дата окончания страховки:</div>
+                               <div class="col-5">{{ customer_insurance.end_date|date:"d.m.Y" }}</div>
+                               <div class="col-7">Текущий лимит:</div>
+                               <div class="col-5">{{ contract_customer.limit_sum }}</div>
+                               <div class="col-7">Потраченная сумма:</div>
+                               
+                               <div class="col-5">
+                                    {{ contract_customer.invoice_sum }}
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <b>У данного клиента, нет действущей карты!</b>
+            {% endif %}
+
+           </div>
+        </div>
+     </div>
+  </div>
+
+  
+
+</div>
+
+{% endblock %}

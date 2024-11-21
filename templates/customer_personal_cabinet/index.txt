@@ -1,0 +1,265 @@
+
+<div class="">
+    <div id="carouselExampleCaptions" style="margin-top:10px;" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-block w-100" style="height: 80px;background: #ece8f5;"></div>
+          <div class="carousel-caption d-md-block">
+            <p>МЗ АЗ расширил перечень амбулаторных услуг, доступных в рамках ОМС</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-block w-100" style="height: 80px;background: #ece8f5;"></div>
+          <div class="carousel-caption d-md-block">
+            <p>Открыта новая клиника в г.Баку по адресу Ичеришехер, 21.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if appointment %}
+    <div class="section main-list ">
+       <p style="line-height: 20px;padding-bottom: 0px!important;margin-bottom: 0px ;color: red;">Вы записаны к {{ request.GET.doctor }}, на {{ request.GET.date }}, {{ request.GET.time }},клиника Маркези клиник</p>
+
+    </div>
+    {% endif %}
+</div>
+<div class="section mt-1 mb-3 main-list">
+    <div class="row">
+        <div class="col-md-2 col-sm-12">
+            <a href="{% url 'customer_personal_cabinet:insurance_list' %}" class="mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                           <p class="a-p-link">Медицинские страховки</p>
+                    </div>
+                </div> 
+            </a>
+            <!-- <a href="{% url 'customer_personal_cabinet:hospital_list' %}" class=" mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                       
+                           <p class="a-p-link">Услуги и клиники</p>
+                    </div>
+                </div> 
+            </a> -->
+            {% if view.kwargs.hospital and view.kwargs.service %}
+                {% url 'customer_personal_cabinet:doctor_list' card_number=view.kwargs.card_number hospital_code=view.kwargs.hospital service_code=view.kwargs.service as doctor_list_url %}
+            {% else %}
+                {% url 'customer_personal_cabinet:doctor_list' as doctor_list_url %}
+            {% endif %}
+            <a href="{{ doctor_list_url }}" class=" mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                       
+                           <p class="a-p-link">Запись к врачу</p>
+                    </div>
+                </div> 
+            </a>
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <a href="{% url 'customer_personal_cabinet:attached_document' %}" class="mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                       
+                           <p class="a-p-link">История болезни и услуг</p>
+                    </div>
+                </div> 
+            </a>
+            <a href="" class="mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                           <p class="a-p-link">Подписи</p>
+                    </div>
+                </div> 
+            </a>
+            <!-- <a href="{% url 'customer_personal_cabinet:services' %}" class="mt-2">
+               <div class="card " style="box-shadow: none;">
+                    <div class="card-body-new">
+                           <p class="a-p-link">История услуг</p>
+                    </div>
+                </div> 
+            </a> -->
+            
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <a href="" class="mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                           <p class="a-p-link">Услуги сторонних организаций</p>
+                    </div>
+                </div> 
+            </a>
+            <a href="{% url 'customer_personal_cabinet:pay_program_list' %}" class="mt-2">
+               <div class="card" style="box-shadow: none;">
+                    <div class="card-body-new">
+                           <p class="a-p-link">Магазин страховых программ</p>
+                    </div>
+                </div> 
+            </a>
+            
+            
+        </div>
+    </div>
+</div>
+<marquee scrollamount="5">
+    <div>
+        <img src="https://www.pashabank.az/templates/images/pblogo.png" style="width: 100px; height: 100px;">
+        <img src="http://abc.az/cdn/2018/june/08/medium/pashasigorta.jpg" style="width: 100px; height: 100px;">
+        <img src="https://cdn.trend.az/2020/04/10/bakisigorta_logo_yeni_100420.jpg" style="width: 100px;height: 100px;">
+        <img src="https://www.astrazeneca.com/content/dam/az/homepage/AZ_RGB_H_COL_600x315.jpg" style="width: 100px;height: 100px;">
+        <img src="https://www.signbusiness.ru/upload/iblock/2d1/bayer_logo.jpg" style="width: 100px;height: 100px;">
+        <img src="https://www.pmlive.com/__data/assets/image/0006/1360914/Pfizer_new_2021.jpeg" style="width: 100px;height: 100px;">
+    </div>
+</marquee>
+
+<!-- <div class="section full mt-3 mb-3">
+    <div class="carousel-multiple splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                <li class="splide__slide">
+                    <div class="card">
+                        <img src="{% static 'customer/assets/img/sample/photo/d1.jpg' %}" class="card-img-top" alt="image">
+                    </div>
+                </li>
+                <li class="splide__slide">
+                    <div class="card">
+                        <img src="{% static 'customer/assets/img/sample/photo/d2.jpg' %}" class="card-img-top" alt="image">
+                    </div>
+                </li>
+                <li class="splide__slide">
+                    <div class="card">
+                        <img src="{% static 'customer/assets/img/sample/photo/d3.jpg' %}" class="card-img-top" alt="image">
+                    </div>
+                </li>
+                <li class="splide__slide">
+                    <div class="card">
+                        <img src="{% static 'customer/assets/img/sample/photo/d4.jpg' %}" class="card-img-top" alt="image">
+                    </div>
+                </li>
+                <li class="splide__slide">
+                    <div class="card">
+                        <img src="{% static 'customer/assets/img/sample/photo/d5.jpg' %}" class="card-img-top" alt="image">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> -->
+    <!-- <div class="page-header">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="page-title">Данные страховки</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dash-widget-header">
+
+                        <div class="">
+                            ФИО: {{ customer.full_name }}<br>
+                            ИИН: {{ customer.iin }}<br>
+                            {% if contract_customer %}
+                                Номер карты: {{ contract_customer.number }} <br>
+                                Номер контракта: {{ contract_customer.contract_program.contract.number }} <br>
+                                Программа: {{ contract_customer.contract_program.contract.number }} <br>
+                                Страховая компания: {{ contract_customer.contract_program.program.title }} <br>
+                                Страховщик: {{ contract_customer.contract_program.contract.insurer.title }} <br>
+                                Дата начало страховки: {{ contract_customer.contract_program.contract.start_date|date:"d.m.Y" }} <br>
+                                Дата окончания страховки: {{ contract_customer.contract_program.contract.end_date|date:"d.m.Y" }} <br>
+                                Лимит карты: {{ contract_customer.contract_program.program.insurance_limit }} <br>
+                                Текущие расходы: {{ contract_customer.get_invoice_sum }} <br>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="page-title">Направления:</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row pricing-box">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="scroll">
+                        <table class="table table-hover table-center mb-0">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting text-center">№</th>
+                                    <th class="sorting text-center">Услуга</th>
+                                    <th class="sorting text-center">МКБ-10</th>
+                                    <th class="sorting text-center">Направляющая больница</th>
+                                    <th class="sorting text-center">Направленная больница</th>
+                                    <th class="sorting text-center">Дата направления</th>
+                                    <th class="sorting text-center">Направляющий доктор</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for referral in referrals %}
+                                  <tr >
+                                      <td class="text-center">{{ forloop.counter }}</td>
+                                      <td class="text-center">{{ referral.service.title }}</td>
+                                      <td class="text-center">{{ referral.icd.title }}</td>
+                                      <td class="text-center">{{ referral.sending_hospital.title }}</td>
+                                      <td class="text-center">{{ referral.directed_hospital.title }}</td>
+                                      <td class="text-center">{{ referral.date|date:"d.m.Y" }}</td>
+                                      <td class="text-center">{{ referral.doctor_full_name|default_if_none:"-" }}</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="page-title">Счет реестр:</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row pricing-box">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="scroll">
+                        <table class="table table-hover table-center mb-0">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting text-center">№</th>
+                                    <th class="sorting text-center">Услуга</th>
+                                    <th class="sorting text-center">МКБ-10</th>
+                                    <th class="sorting text-center">Выполняющая больница</th>
+                                    <th class="sorting text-center">Дата направления</th>
+                                    <th class="sorting text-center">Выполняющий доктор</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for invoice in invoices %}
+                                  <tr>
+                                      <td class="text-center">{{ forloop.counter }}</td>
+                                      <td class="text-center">{{ invoice.service.title }}</td>
+                                      <td class="text-center">{{ invoice.icd.title }}</td>
+                                      <td class="text-center">{{ invoice.hospital }}</td>
+                                      <td class="text-center">{{ invoice.date|date:"d.m.Y" }}</td>
+                                      <td class="text-center">{{ invoice.consumption }}</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

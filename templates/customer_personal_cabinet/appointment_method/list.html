@@ -1,0 +1,46 @@
+{% extends "customer_personal_cabinet/base.html" %}
+{% load static %}
+{% block content %}
+<div class="section full">
+    <!-- <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Выберите метод записи</li>
+      </ol>
+    </nav> -->
+	<!-- <div class="section-title">Выберите метод записи</div> -->
+    <ul class="listview image-listview">
+        <!-- <li>
+            <a href="tel:777-177-8293" class="item">
+                <div class="icon-box bg-primary">
+                    <ion-icon name="call-outline" role="img" class="md hydrated" aria-label="call outline"></ion-icon>
+                </div>
+                <div class="in">
+                    Позвонить
+                </div>
+            </a>
+        </li> -->
+        <!-- <li>
+            <a href="https://wa.me/+77771778293" class="item">
+                <div class="icon-box bg-whatsapp">
+                    <ion-icon name="logo-whatsapp" role="img" class="md hydrated" aria-label="logo whatsapp"></ion-icon>
+                </div>
+                <div class="in">
+                    Написать по ватсапу
+                </div>
+            </a>
+        </li> -->
+        <li>
+            <a href="{% url 'customer_personal_cabinet:index' card_number=card_number hospital=hospital service=service %}" class="item">
+                <div class="icon-box bg-primary">
+                    <ion-icon name="person-outline" role="img" class="md hydrated" aria-label="person outline"></ion-icon>
+                </div>
+                <div class="in">
+                   Записаться <!-- к врачу -->
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load customer_personal_cabinet %}
+
+{% for time in times %}
+	{% is_free_time doctor date time as is_free_time %}
+	{% if is_free_time %}
+		<option value="{{ time }}">{{ time }}</option>
+	{% endif %}
+{% endfor %}

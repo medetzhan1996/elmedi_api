@@ -1,0 +1,239 @@
+
+    <div class="section full">
+        &nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-primary  goTop show">
+           <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+        </a>
+    	<div class="section-title" style="color:red">Мои медицинские страховки </div>
+        <div class="wide-block pt-2 pb-2">
+            <div class="section-title">ДМС корпоративный  </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% if customer_insurances %}
+                    {% for customer_insurance in customer_insurances %}
+                        {% if customer_insurance.insurance.code == 'PASASIGORTA' %}
+                            <p class="mb-0">
+                                <b>Номер карты: </b>
+                                {{ customer_insurance.card_number }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Ваша программа: </b>
+                                {{ customer_insurance.program }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Ваш страхователь: </b>
+                                {{ customer_insurance.insurer }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Ваш страховщик:</b>{{ customer_insurance.insurance.title }}
+                            </p>
+                            <p class="mb-0">
+                                <b> Дата начало страховки: </b>
+                                {{ customer_insurance.begin_date|date:"d.m.Y" }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Дата окончания страховки:</b>
+                                {{ customer_insurance.end_date|date:"d.m.Y" }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Текущий лимит: </b>
+                                {{ customer_insurance.limit }}
+                            </p>
+                            <p class="mb-0">
+                                <b>Потраченная сумма:</b>
+                                {{ customer_insurance.invoice_sum }}
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <b>У данного клиента, нет действущей карты!</b>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="wide-block pt-2 pb-2">
+            <div class="section-title">ДМС индивидуальный  </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% if customer_insurances %}
+                        {% for customer_insurance in customer_insurances %}
+                            {% if customer_insurance.insurance.code == 'MARKEZICLINIK' %}
+                                <p class="mb-0">
+                                    <b>Номер карты: </b>
+                                    {{ customer_insurance.card_number }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Ваша программа: </b>
+                                    {{ customer_insurance.program }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Ваш страхователь: </b>
+                                    {{ customer_insurance.insurer }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Ваш страховщик:</b>{{ customer_insurance.insurance.title }}
+                                </p>
+                                <p class="mb-0">
+                                    <b> Дата начало страховки: </b>
+                                    {{ customer_insurance.begin_date|date:"d.m.Y" }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Дата окончания страховки:</b>
+                                    {{ customer_insurance.end_date|date:"d.m.Y" }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Текущий лимит: </b>
+                                    {{ customer_insurance.limit }}
+                                </p>
+                                <p class="mb-0">
+                                    <b>Потраченная сумма:</b>
+                                    {{ customer_insurance.invoice_sum }}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <b>У данного клиента, нет действущей карты!</b>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-3">
+                <div class="section full mb-2">
+                    <div class="section-title">ОМС </div>
+                    <div class="wide-block pt-2 pb-1">
+                        <a href="{% static 'excel/Логин_баку_3.xlsx' %}" style="text-decoration: revert;" download>Доступные услуги и цены ОМС</a>
+                    </div>
+                </div>
+            </div>   
+            <div class="col-md-3">
+                <div class="section full mb-2">
+                    <div class="section-title">ДМС  </div>
+                    <div class="wide-block pt-2 pb-1">
+                          
+                        <div class="invoice-to">
+                            {% if customer_insurances %}
+                                {% for customer_insurance in customer_insurances %}
+                                    {% if customer_insurance.insurance.code == 'PASASIGORTA' %}
+                                        <p class="mb-0">
+                                            <b>Номер карты: </b>
+                                            {{ customer_insurance.card_number }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваша программа: </b>
+                                            {{ customer_insurance.program }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваш страхователь: </b>
+                                            {{ customer_insurance.insurer }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваш страховщик:</b>{{ customer_insurance.insurance.title }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b> Дата начало страховки: </b>
+                                            {{ customer_insurance.begin_date|date:"d.m.Y" }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Дата окончания страховки:</b>
+                                            {{ customer_insurance.end_date|date:"d.m.Y" }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Текущий лимит: </b>
+                                            {{ customer_insurance.limit }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Потраченная сумма:</b>
+                                            {{ customer_insurance.invoice_sum }}
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <b>У данного клиента, нет действущей карты!</b>
+                            {% endif %}
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="section full mb-2">
+                    <div class="section-title">Маркези клиника </div>
+                    <div class="wide-block pt-2 pb-1">
+                          
+                        <div class="invoice-to">
+                            {% if customer_insurances %}
+                                {% for customer_insurance in customer_insurances %}
+                                    {% if customer_insurance.insurance.code == 'MARKEZICLINIK' %}
+                                        <p class="mb-0">
+                                            <b>Номер карты: </b>
+                                            {{ customer_insurance.card_number }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваша программа: </b>
+                                            {{ customer_insurance.program }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваш страхователь: </b>
+                                            {{ customer_insurance.insurer }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Ваш страховщик:</b>{{ customer_insurance.insurance.title }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b> Дата начало страховки: </b>
+                                            {{ customer_insurance.begin_date|date:"d.m.Y" }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Дата окончания страховки:</b>
+                                            {{ customer_insurance.end_date|date:"d.m.Y" }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Текущий лимит: </b>
+                                            {{ customer_insurance.limit }}
+                                        </p>
+                                        <p class="mb-0">
+                                            <b>Потраченная сумма:</b>
+                                            {{ customer_insurance.invoice_sum }}
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <b>У данного клиента, нет действущей карты!</b>
+                            {% endif %}
+                        </div> 
+                    </div>
+                </div>
+            </div>  
+            <div class="col-md-3">
+                <div class="section full mb-2">
+                    <div class="section-title">ФОНДЫ  </div>
+                    <div class="wide-block pt-2 pb-1">
+                        <div class="invoice-to">
+                            <p class="mb-0">
+                                <b>Фонд Г.Алиева</b><br>
+                                Доступная сумма:5000 манат
+                            </p>
+                            <p class="mb-0">
+                                <b>Фонд Хазарцы</b><br>
+                                Доступная сумма:300 манат
+                            </p>
+                        </div> 
+                    </div>
+                </div>
+            </div>   
+            <div class="col-md-3">
+                <div class="section full mb-2">
+                    <div class="section-title">ОСТАТОК НА МОЕМ СЧЕТЕ  </div>
+                    <div class="wide-block pt-2 pb-1">
+                        <div class="invoice-to">
+                           
+                            <p class="mb-0">
+                                <b>1300 манат</b><br>
+                               23.07.2022
+                            </p>
+                        </div>  
+                    </div>
+                </div>
+            </div> 
+        </div> -->
+    </div>

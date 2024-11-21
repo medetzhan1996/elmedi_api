@@ -1,0 +1,229 @@
+
+<div class="section full">
+    &nbsp&nbsp&nbsp<a href="{% url 'customer_personal_cabinet:index' %}" class=" btn btn-icon btn-sm btn-primary goTop show">
+           <ion-icon name="home-outline" role="img" class="md hydrated" aria-label="home outline"></ion-icon>
+        </a>
+    <div class="section-title" style="color:red">Запись к врачу</div>
+    <div class="wide-block pt-2 pb-2">
+        <form >
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Тип оплаты услуг</label>
+                            <select name="type_appeal" id=id_type_appeal class="form-control">
+                                <option value="1" {% is_selected type_appeal 1 %}>ОМС</option>
+                                <option value="2" {% is_selected type_appeal 2 %}>ДМС корпоративный</option>
+                                <option value="4" {% is_selected type_appeal 4 %}>ДМС индивидуальный</option>
+                                <option value="3" {% is_selected type_appeal 3 %}>Платно</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Выберите тип клиники</label>
+                            <select name="status" id="id_status" class="form-control">
+                                <option value="0" {% is_selected status 0 %}>Сельские клиники</option>
+                                <option value="1" {% is_selected status 1 %}>Районные клиники</option>
+                                <option value="2" {% is_selected status 2 %}>Городские клиники</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Выберите клинику</label>
+                            <select name="hospital" id="id_hospital" class="form-control">
+                                {% if status == '2' %}
+                                    {% for customer_insurance in customer_insurances %}
+                                        {% get_hospitals customer_insurance.insurance.code customer_insurance.card_number as hospitals %}
+                                        {% get_of_unique_dicts hospitals as unique_dicts %}
+                                        <optgroup label="Доступные больницы, карточки {{ customer_insurance.card_number }}
+                                            ({{ customer_insurance.program }})">
+                                            <option value="" hidden>-----</option>
+                                            {% for hospital in unique_dicts %}
+                                                <option value="{{ hospital.hospital__code }}"
+                                                    {% is_selected hospital.hospital__code hospital_code %}
+                                                    data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code=hospital.hospital__code %}">
+                                                    {{ hospital.hospital__title }}
+                                                </option>
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                {% endif %}
+                                {% for my_hospital in my_hospitals %}
+                                    {% if my_hospital.code != 'markezi_clinik' %}
+                                        <option disabled>{{ my_hospital.title }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Выберите услугу</label>
+                            <select name="service" id="id_service" class="form-control">
+                                {% if services %}
+                                    <option data-url="">Выберите услугу</option>
+                                    {% for service in services %}
+                                        <option value="{{service.id}}"
+                                            {% is_selected service.code service_code %}
+                                            data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=card_number_code hospital_code=hospital_code service_code=service.code %}">
+                                            {{service.title}}
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>Сначала выберите больницу</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Выберите клинику</label>
+                            <select name="hospital" id="id_hospital" class="form-control">
+                                {% for customer_insurance in customer_insurances %}
+                                    {% get_hospitals customer_insurance.insurance.code customer_insurance.card_number as hospitals %}
+                                    {% get_of_unique_dicts hospitals as unique_dicts %}
+                                    <optgroup label="Доступные больницы, карточки {{ customer_insurance.card_number }}">
+                                        <option value="" hidden>-----</option>
+                                        {% for hospital in unique_dicts %}
+                                            <option value="{{ hospital.hospital__code }}"
+                                                {% is_selected hospital.hospital__code hospital_code %}
+                                                data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=customer_insurance.card_number hospital_code=hospital.hospital__code %}">
+                                                {{ hospital.hospital__title }}
+                                            </option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-md-4">
+                     <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label>Выберите услугу</label>
+                            <select name="service" id="id_service" class="form-control">
+                                {% if services %}
+                                    <option data-url="">Выберите услугу</option>
+                                    {% for service in services %}
+                                        <option value="{{service.id}}"
+                                            {% is_selected service.code service_code %}
+                                            data-url="{% url 'customer_personal_cabinet:doctor_list' card_number=card_number_code hospital_code=hospital_code service_code=service.code %}">
+                                            {{service.title}}
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>Сначала выберите больницу</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>    -->             
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<div class="section mt-3 mb-3">
+    <div class="row">
+        {% if service_code %}
+            {% for doctor in doctors %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="{{ doctor.img.url }}" class="card-img-top" alt="image">
+                        <div class="card-body">
+                            <h6 class="card-subtitle">{{ doctor.specialty }}</h6>
+                            <h5 class="card-title">{{ doctor.full_name }}</h5>
+                            <p class="card-text">
+                                Адрес {{ doctor.hospital.address }}
+                            </p>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <a href="#" data-doctor_id="{{ doctor.id }}"
+                                        data-doctor_img="{{ doctor.img.url }}"
+                                        data-specialty="{{ doctor.specialty }}"
+                                        data-fullname="{{ doctor.full_name }}"
+                                        class="btn btn-primary appointment-doctor w-100 btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#ModalForm">
+                                        Онлайн запись к врачу
+                                    </a>
+                                </div>
+                                <!-- <div class="col-md-4 col-sm-12 mt-1 mb-1">
+                                    <a href="" class="w-100 btn btn-secondary btn-sm">Позвонить call center</a>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <a href="" class="w-100 btn btn-success btn-sm">Написать в регистратуре</a>
+                                </div> -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+<div class="modal fade modalbox" id="ModalForm" data-bs-backdrop="static" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Онлайн запись к врачу</h5>
+                <a href="#" data-bs-dismiss="modal">Закрыть</a>
+            </div>
+            <div class="modal-body">
+                <div class="profile-head">
+                    <div class="avatar">
+                        <img id="id_doctor_img" src="{% static 'customer/assets/img/sample/avatar/avatar-02.jpg' %}" alt="avatar" class="imaged w64 rounded">
+                    </div>
+                    <div class="in">
+                        <h3 class="name" id="id_doctor_fullname">Терентьева Александра Викторовна</h3>
+                        <h5 class="subtext" id="id_specialty">Дерматолог, Детский Дерматолог, Косметолог, Дерматовенеролог, Детский Дерматовенеролог</h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="login-form">
+                    <div id="appointment-create-content" class="section mt-4 mb-5">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="hidden" name="doctor" id="id_doctor">
+                                <label class="form-label" for="email1">Выберите дату приема</label>
+                                <input type="date" id="id_date" name="date" class="form-control"> <br>
+                                <div id="time_content" class="d-none">
+                                    <label class="form-label">Выберите время приема</label>
+                                    <select id="id_time" name="time" class="form-control">
+                                        
+                                    </select>
+                                </div>
+                                
+                                <i class="clear-input">
+                                    <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle"></ion-icon>
+                                </i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button type="button" id="create-appointment" class="btn btn-primary btn-block btn-lg" data-bs-dismiss="modal">Записаться</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="appointment-perform-content" class="section mt-4 mb-5 d-none">
+                    <span style="color: red;">Вы успешно записаны на прием !</span>
+                    <a href="{% url 'customer_personal_cabinet:index' %}" class="btn btn-success btn-block btn-lg">
+                        Перейти на главный экран
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

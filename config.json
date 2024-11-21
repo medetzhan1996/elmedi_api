@@ -1,0 +1,9 @@
+{
+    "HOSPITALS_TO_SERVERS": {
+        "hospital1": "http://127.0.0.1:8003/"
+    },
+    "INSURANCES_TO_SERVERS": {
+        "insurance1": "http://127.0.0.1:8003/"
+    }
+}
+

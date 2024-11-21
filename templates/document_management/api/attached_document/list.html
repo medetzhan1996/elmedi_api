@@ -1,0 +1,17 @@
+{% for attached_document in attached_documents %}
+    <p>
+        {% if attached_document.file %}
+            <a href="{{ attached_document.file.url }}" style="font-size:14px" download>{{ attached_document.title|default_if_none:"Без названия" }}</a>
+            {% elif attached_document.screen %}
+               <a href="{{ attached_document.screen }}" style="font-size:14px" download>
+                    {{ attached_document.title|default_if_none:"Без названия" }}
+                </a>
+        {% endif %}
+        <span class="over"> [{{ attached_document.uploaded_at|date:"d.m.Y" }}]</span>
+    </p>
+{% empty %}
+    <p>
+        У вас нет загруженных документов
+    </p>
+</tr>
+{% endfor %}
